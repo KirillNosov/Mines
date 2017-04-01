@@ -81,15 +81,21 @@ namespace MineSweeper
                 {
                     if (!game.GetCell(i, j).IsOpened)
                     {
-                        if (game.GetCell(i, j).IsMineMark && game.IsFinished && !game.GetCell(i, j).IsMined)
+                        if (game.IsFinished)
                         {
-                            minesFieldControl.Cells(i, j).Picture = Drawer.MineError();
-                        }
-                        else if (!game.IsStarted && !game.GetCell(i, j).IsBlownUp && game.GetCell(i, j).IsMined)
-                        {
-                            if (!game.IsWon && !game.GetCell(i, j).IsMineMark)
+                            if (game.GetCell(i, j).IsMineMark && !game.GetCell(i, j).IsMined)
                             {
-                                minesFieldControl.Cells(i, j).Picture = Drawer.Mine();
+                                minesFieldControl.Cells(i, j).Picture = Drawer.MineError();
+                            }
+                            else if (game.IsWon && game.GetCell(i, j).IsMined)
+                                minesFieldControl.Cells(i, j).Picture = Drawer.Flag();
+
+                            else if (!game.IsStarted && !game.GetCell(i, j).IsBlownUp && game.GetCell(i, j).IsMined)
+                            {
+                                if (!game.IsWon && !game.GetCell(i, j).IsMineMark)
+                                {
+                                    minesFieldControl.Cells(i, j).Picture = Drawer.Mine();
+                                }
                             }
                         }
                     }
