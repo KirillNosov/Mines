@@ -10,9 +10,8 @@ namespace MineSweeper
 {
     public partial class Mines : Form
     {
-        public const int INDENT = 25;
-        Game game;
-        Point cell;        
+        const int INDENT = 25;
+        Game game;   
         int seconds;
 
         public Mines()
@@ -24,7 +23,7 @@ namespace MineSweeper
         {
             if (!game.IsFinished)
             {
-                cell = minesFieldControl.IndexesCell(e.X, e.Y);
+                Point cell = minesFieldControl.IndexesCell(e.X, e.Y);
                 timer1.Enabled = true;
                 if (e.Button == MouseButtons.Left)
                 {
@@ -136,7 +135,7 @@ namespace MineSweeper
         }
 
         private void newGameButton_Click(object sender, EventArgs e)
-        {
+        {            
             if (timer1.Enabled)
                 timer1.Enabled = false;
 
