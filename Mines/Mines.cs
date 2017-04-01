@@ -10,8 +10,9 @@ namespace MineSweeper
 {
     public partial class Mines : Form
     {
+        public const int INDENT = 25;
         Game game;
-        Point cell;
+        Point cell;        
         int seconds;
 
         public Mines()
@@ -80,23 +81,17 @@ namespace MineSweeper
                 {
                     if (!game.GetCell(i, j).IsOpened)
                     {
-                        if (game.GetCell(i, j).IsMineMark)
-                            if (!game.IsFinished)
-                                minesFieldControl.Cells(i, j).Picture = Drawer.Flag();
-                            else
-                                if (game.GetCell(i, j).IsMined)
-                                minesFieldControl.Cells(i, j).Picture = Drawer.Flag();
-                            else
-                                minesFieldControl.Cells(i, j).Picture = Drawer.MineError();
-                        else if ((!game.IsStarted && !game.GetCell(i, j).IsBlownUp) && game.GetCell(i, j).IsMined)
+                        if (game.GetCell(i, j).IsMineMark && game.IsFinished && !game.GetCell(i, j).IsMined)
                         {
-                            if (!game.IsWon)
-                                minesFieldControl.Cells(i, j).Picture = Drawer.Mine();
-                            else
-                                minesFieldControl.Cells(i, j).Picture = Drawer.Flag();
+                            minesFieldControl.Cells(i, j).Picture = Drawer.MineError();
                         }
-                        else
-                            minesFieldControl.Cells(i, j).Picture = null;
+                        else if (!game.IsStarted && !game.GetCell(i, j).IsBlownUp && game.GetCell(i, j).IsMined)
+                        {
+                            if (!game.IsWon && !game.GetCell(i, j).IsMineMark)
+                            {
+                                minesFieldControl.Cells(i, j).Picture = Drawer.Mine();
+                            }
+                        }
                     }
                     else
                     {
@@ -145,20 +140,20 @@ namespace MineSweeper
             label1.Text = "Мин осталось: " + game.MinesLeft;
             label2.Text = "Время: ";
 
-            Width = minesFieldControl.SizeCell * Level.colCount + 2 * Level._BORDER;
-            Height = minesFieldControl.SizeCell * Level.rowCount + minesFieldControl.Top + 2 * Level._BORDER;
+            Width = minesFieldControl.SizeCell * Level.colCount + 2 * INDENT;
+            Height = minesFieldControl.SizeCell * Level.rowCount + minesFieldControl.Top + 2 * INDENT;
 
             minesFieldControl.Clear();
             minesFieldControl.ColCount = Level.colCount;
             minesFieldControl.RowCount = Level.rowCount;
 
-            minesFieldControl.Left = Level._BORDER;
+            minesFieldControl.Left = INDENT;
             int i = minesFieldControl.Right;
 
             label1.Top = minesFieldControl.Bottom;
             label1.Left = minesFieldControl.Right - label1.Width;
             label2.Top = minesFieldControl.Bottom;
-            label2.Left = Level._BORDER;
+            label2.Left = INDENT;
 
             newGameButton.Left = (int)(Width / 2 - newGameButton.Width / 2);
             this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
@@ -209,8 +204,7 @@ namespace MineSweeper
     }
 
     static class Level
-    {
-        public const int _BORDER = 25;
+    {        
         public static int colMines = 10;
         public static int rowCount = 9;
         public static int colCount = 9;

@@ -10,6 +10,7 @@ namespace MyControl
 {
     public partial class MyControl : UserControl
     {
+        private const int BORDER_WIDTH = 1;
         private Cell[,] cells;
         private bool clickCell = false;
         private Point activeCell;
@@ -107,8 +108,8 @@ namespace MyControl
             activeCell.X = -1;
             activeCell.Y = -1;
             cells = new Cell[rowCount, colCount];
-            this.Width = (SizeCell - 1) * ColCount + 1;
-            this.Height = (SizeCell - 1) * RowCount + 1;
+            this.Width = (SizeCell - BORDER_WIDTH) * ColCount + BORDER_WIDTH;
+            this.Height = (SizeCell - BORDER_WIDTH) * RowCount + BORDER_WIDTH;
             int y = 0;
             int x;
             for (int i = 0; i < RowCount; i++)
@@ -118,9 +119,9 @@ namespace MyControl
                 {
                     cells[i, j] = new Cell();
                     cells[i, j].Position = new Point(x, y);
-                    x += SizeCell - 1;
+                    x += SizeCell - BORDER_WIDTH;
                 }
-                y += SizeCell - 1;
+                y += SizeCell - BORDER_WIDTH;
             }
         }
 
@@ -137,20 +138,20 @@ namespace MyControl
             base.OnPaint(e);
             foreach (Cell cell in cells)
             {
-                e.Graphics.DrawRectangle(new Pen(BorderColor), new Rectangle(cell.Position.X, cell.Position.Y, SizeCell - 1, SizeCell - 1));
+                e.Graphics.DrawRectangle(new Pen(BorderColor), new Rectangle(cell.Position.X, cell.Position.Y, SizeCell - BORDER_WIDTH, SizeCell - BORDER_WIDTH));
                 if (cell.Picture != null)
                 {
-                    e.Graphics.DrawImage(cell.Picture, cell.Position.X + 1, cell.Position.Y + 1, sizeCell - 2, sizeCell - 2);
+                    e.Graphics.DrawImage(cell.Picture, cell.Position.X + BORDER_WIDTH, cell.Position.Y + BORDER_WIDTH, sizeCell - 2*BORDER_WIDTH, sizeCell - 2* BORDER_WIDTH);
                 }
             }
 
             if (activeCell.X >= 0 && activeCell.Y >= 0)
             {
-                e.Graphics.DrawRectangle(new Pen(ActiveCellColor), new Rectangle(activeCell.X, activeCell.Y, SizeCell - 1, SizeCell - 1));
+                e.Graphics.DrawRectangle(new Pen(ActiveCellColor), new Rectangle(activeCell.X, activeCell.Y, SizeCell - BORDER_WIDTH, SizeCell - BORDER_WIDTH));
             }
             if (clickCell)
             {
-                e.Graphics.FillRectangle(new SolidBrush(ClickCellColor), clickedCell.X + 1, clickedCell.Y + 1, SizeCell - 2, SizeCell - 2);
+                e.Graphics.FillRectangle(new SolidBrush(ClickCellColor), clickedCell.X + 1, clickedCell.Y + 1, SizeCell - 2* BORDER_WIDTH, SizeCell - 2* BORDER_WIDTH);
             }
         }
 
@@ -174,8 +175,8 @@ namespace MyControl
         {
             Point point = GetPositionCell(x, y);
             int temp = point.Y;
-            point.Y = point.X / (SizeCell - 1);
-            point.X = temp / (SizeCell - 1);
+            point.Y = point.X / (SizeCell - BORDER_WIDTH);
+            point.X = temp / (SizeCell - BORDER_WIDTH);
             return point;
         }
 
@@ -184,13 +185,13 @@ namespace MyControl
             int X = 0;
             while (Math.Abs(X - x) > SizeCell)
             {
-                X += SizeCell - 1;
+                X += SizeCell - BORDER_WIDTH;
             }
 
             int Y = 0;
             while (Math.Abs(Y - y) > SizeCell)
             {
-                Y += SizeCell - 1;
+                Y += SizeCell - BORDER_WIDTH;
             }
             return (new Point(X, Y));
         }
