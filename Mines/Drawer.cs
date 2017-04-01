@@ -25,6 +25,10 @@ namespace MineSweeper
                     return Properties.Resources._5;
                 case 6:
                     return Properties.Resources._6;
+                case 7:
+                    return Properties.Resources._7;
+                case 8:
+                    return Properties.Resources._8;
             }
             return null;
         }

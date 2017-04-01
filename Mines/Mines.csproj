@@ -117,6 +117,8 @@
     <Content Include="Resources\4.png" />
     <Content Include="Resources\5.png" />
     <Content Include="Resources\6.png" />
+    <Content Include="Resources\7.png" />
+    <Content Include="Resources\8.png" />
     <Content Include="Resources\bear.png" />
     <Content Include="Resources\bear_click.png" />
     <Content Include="Resources\bear_lost.png" />
